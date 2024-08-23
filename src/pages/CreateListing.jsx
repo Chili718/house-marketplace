@@ -17,7 +17,7 @@ function CreateListing() {
         address: '',
         offer: false,
         regularPrice: 0,
-        dicountedPrice: 0,
+        discountedPrice: 0,
         images: {},
         latitude: 0,
         longitude: 0,
