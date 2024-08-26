@@ -2,8 +2,15 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import {collection, getDocs, query, orderBy, limit, doc} from 'firebase/firestore'
 import {db} from '../firebase.config'
-import { register } from "swiper/element"
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import Spinner from "./Spinner"
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 function Slider() {
 
@@ -11,8 +18,6 @@ function Slider() {
     const [listings, setListings] = useState(null)
 
     const navigate = useNavigate()
-
-    register();
 
     useEffect(() => {
 
@@ -46,19 +51,19 @@ function Slider() {
     <>
         <p className="exploreHeading">Recommended</p>
 
-        <swiper-container slides-per-view="1" pagination={{clickable: true}}>
+          <Swiper slides-per-view="1" pagination={{ clickable: true }} modules={[Navigation, Pagination, Scrollbar, A11y]} scrollbar={{ draggable: true }}>
             {listings.map(({data, id}) => (
-                <swiper-slide key={id} onClick={() => navigate(`/category/${data.type}/${id}`)}>
-                    <div style={{ background: `url(${data.imageUrls[0]}) center no-repeat`, backgroundSize: 'cover', height: '35vh', }} className="swiperSlideDiv">
+                <SwiperSlide key={id} onClick={() => navigate(`/category/${data.type}/${id}`)}>
+                    <div style={{ background: `url(${data.imageUrls[0]}) center no-repeat`, backgroundSize: 'cover', height: '35vh', }} className="swiperSlideDiv swiperSlideDivClick">
                         <p className="swiperSlideText">{data.name}</p>
                         <p className="swiperSlidePrice">
                             ${data.discountedPrice ?? data.regularPrice}
                             {data.type === 'rent' && '/ month'}
                         </p>
                     </div>
-                </swiper-slide>
+                </SwiperSlide>
             ))}
-        </swiper-container>
+        </Swiper>
     </>
   )
 }
